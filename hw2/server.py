@@ -62,7 +62,7 @@ def auth():
     cookie_components = cookie.split()
 
     # Check that the structure is right
-    if (len(cookie_components) != 7):
+    if len(cookie_components) != 7:
         return 'Cookie has been tampered with, 403'
 
 
@@ -71,12 +71,14 @@ def auth():
     timestamp = cookie_components[1]
     user_type = cookie_components[5]    
     hmac_ = cookie_components[6]
-    if (not hmac.compare_digest(hmac_, compute_hmac(username, timestamp, user_type))):
+    if not hmac.compare_digest(hmac_, compute_hmac(username, timestamp, user_type)):
         return 'Cookie has been tampered with, 403'
 
-    if (user_type == 'user'):
+    if user_type == 'user':
         return 'Have a simple user, 201'
-    return 'Have an admin, 200'   
+    elif user_type == 'admin':
+        return 'Have a simple user, 200'   
+    return 'Cookie has been tampered with, 403'   
 
 if __name__ == '__main__':
     app.run()
