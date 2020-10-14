@@ -3,7 +3,7 @@ import os
 from collections import defaultdict
 from time import time
 from base64 import b64encode, b64decode
-from flask import Flask, make_response
+from flask import Flask, request, make_response
 
 app = Flask(__name__)
 
