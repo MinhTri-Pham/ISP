@@ -58,7 +58,7 @@ def auth():
     if not cookie:
         return 'No cookie is present, 403'
     
-    cookie = b64decode(cookie.decode('utf-8'))
+    cookie = b64decode(cookie).decode('utf-8')
     cookie_components = login_cookie.split()
 
     # Check that the structure is right
