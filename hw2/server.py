@@ -35,11 +35,9 @@ def login():
     timestamp = round(time()) 
 
     if username == 'admin' and password == '42':
-        user_type = 'admin'
-        cookie = '{},{},com402,hw2,ex2,admin,{}'.format(username, timestamp, compute_hmac(username, timestamp, user_type))
+        cookie = '{},{},com402,hw2,ex2,admin,{}'.format(username, timestamp, compute_hmac(username, timestamp, 'admin'))
     else:
-        user_type = 'user'
-        cookie = '{},{},com402,hw2,ex2,user,{}'.format(username, timestamp, compute_hmac(username, timestamp, user_type))
+        cookie = '{},{},com402,hw2,ex2,user,{}'.format(username, timestamp, compute_hmac(username, timestamp, 'user'))
 
     
     # Convert cookie to byte-like object and encode in base64
@@ -59,7 +57,7 @@ def auth():
         return 'No cookie is present', 403
     
     cookie = b64decode(cookie).decode('utf-8')
-    cookie_components = cookie.split()
+    cookie_components = cookie.split(',')
 
     # Check that the structure is right
     if len(cookie_components) != 7:
@@ -71,8 +69,8 @@ def auth():
     timestamp = cookie_components[1]
     user_type = cookie_components[5]    
     hmac_ = cookie_components[6]
+
     if not hmac.compare_digest(hmac_, compute_hmac(username, timestamp, user_type)):
-        print("Cookie tampered detected")
         return 'Cookie has been tampered with', 403 
 
     if user_type == 'user':
