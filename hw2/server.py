@@ -18,7 +18,7 @@ secret_dict = defaultdict(new_random)
 def compute_hmac(username, timestamp, user_type):
 
     user_secret = secret_dict[username]
-    return hmac.new(user_secret, bytes(username + timestamp + user_type, 'utf-8')).hexdigest().upper()
+    return hmac.new(user_secret, bytes(username + str(timestamp) + user_type, 'utf-8')).hexdigest().upper()
 
 @app.route("/login",methods=['POST'])
 def login():
