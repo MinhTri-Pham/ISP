@@ -55,7 +55,7 @@ def login():
 @app.route("/auth",methods=['GET'])
 def auth():
     cookie = request.cookies.get(cookie_name)
-    if (cookie == null):
+    if not cookie:
         return 'No cookie is present, 403'
     
     cookie = b64decode(cookie.decode('utf-8'))
