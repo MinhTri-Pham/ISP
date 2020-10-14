@@ -1,0 +1,7 @@
+First make an arbitrary login, the server stores a session cookie encoded using base64
+The idea is to modify this cookie to be admin instead of user
+If we decode the cookie content, we get
+.....,user
+So we encode 
+.....,admin
+And substitute the result into the cookie content to be logged in as admin 

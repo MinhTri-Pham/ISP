@@ -1,0 +1,7 @@
+The program has input of the form [count],[data]
+Copies [count] * sizeof(struct widget_t) into buf, tries to implement a check for count
+Problem is that it first casts count from unsigned to signed and then back to unsigned when copying
+When changing unsigned to signed, count can become negative and so pass the check
+Then when it's changed back to unsigned, so we can copy a big chunk of data and overflow the buffer
+Hence we can perform similar attack to sploit1
+

@@ -1,0 +1,8 @@
+The program copies the user input into a buffer with capacity 240 bytes with no input check
+With sufficiently large input, I can write past the buffer and so overwrite the return address
+With a bit of trial and error, I find that inputing 248 bytes overwrites the return address
+Strategy is to have input of form [NOP, ..., NOP, SHELLCODE, RET,... RET]
+NOP sled solves problem of having to know the exact address of buf and efdfectively increases the target address space
+To find a suitable new return address, first use a dummy one which produces a segmentation error
+Inspecting memory for the NOP sled gives us a good return address
+ 

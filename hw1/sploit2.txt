@@ -1,0 +1,24 @@
+Program does the same thing as first one, but there's a sort of length check
+The programs copies one extra byte if an input longer than the capacity of buf is supplied
+It's not possible to overwrite the return address but we can overwrite ebp
+Want to modify ebp to point to a part of the buffer where a return address can be read from,
+and at the same time, points to the payload within the same buffer
+
+Testing with 240*A: ebp is moved with the null byte at the end of the chain, so the return address is taken from the buffer
+Return address is 0x41414141 so I get a segmentation fault
+
+Strategy for exploit: [NOP, SHELL, RET] where RET are copies of an address pointing to the NOP sled
+NOP sled and copies of return addresses are to increase target area and improve chances
+
+Using gdb: 
+Original ebp was 0xbffffdXX
+Corruted ebp is 0xbffffd00
+
+The corrupted ebp points inside the buffer (0xbfffc88-0xbfffd78)
+
+When bar function returns, esp is set to ebp, that is 0xbffffd00. 
+Finally when the foo returns, eip is set to the VALUE of the memory location esp is pointing to.  
+
+So adjust size of RET block to cover 0xbffffd00
+(so that eip becomes the address pointing to the NOP sled once foo returns)
+
