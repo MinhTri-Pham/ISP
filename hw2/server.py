@@ -78,7 +78,8 @@ def auth():
         return 'Have a simple user', 201
     elif user_type == 'admin':
         return 'Have an admin', 200   
-    return 'Cookie has been tampered with', 403   
+    else:
+        return 'Cookie has been tampered with', 403   
 
 if __name__ == '__main__':
     app.run()
