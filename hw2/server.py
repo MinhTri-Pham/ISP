@@ -56,14 +56,14 @@ def login():
 def auth():
     cookie = request.cookies.get(cookie_name)
     if not cookie:
-        return 'No cookie is present, 403'
+        return 'No cookie is present', 403
     
     cookie = b64decode(cookie).decode('utf-8')
     cookie_components = cookie.split()
 
     # Check that the structure is right
     if len(cookie_components) != 7:
-        return 'Cookie has been tampered with, 403'
+        return 'Cookie has been tampered with', 403
 
 
     # Check HMAC is right
@@ -72,13 +72,13 @@ def auth():
     user_type = cookie_components[5]    
     hmac_ = cookie_components[6]
     if not hmac.compare_digest(hmac_, compute_hmac(username, timestamp, user_type)):
-        return 'Cookie has been tampered with, 403'
+        return 'Cookie has been tampered with', 403 
 
     if user_type == 'user':
-        return 'Have a simple user, 201'
+        return 'Have a simple user', 201
     elif user_type == 'admin':
-        return 'Have an admin, 200'   
-    return 'Cookie has been tampered with, 403'   
+        return 'Have an admin', 200   
+    return 'Cookie has been tampered with', 403   
 
 if __name__ == '__main__':
     app.run()
