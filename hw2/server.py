@@ -34,7 +34,7 @@ def login():
     cookie = ""
     timestamp = round(time()) 
 
-    if (username == 'admin' and password == '42'):
+    if username == 'admin' and password == '42':
         user_type = 'admin'
         cookie = '{},{},com402,hw2,ex2,admin,{}'.format(username, timestamp, compute_hmac(username, timestamp, user_type))
     else:
@@ -72,6 +72,7 @@ def auth():
     user_type = cookie_components[5]    
     hmac_ = cookie_components[6]
     if not hmac.compare_digest(hmac_, compute_hmac(username, timestamp, user_type)):
+        print("Cookie tampered detected")
         return 'Cookie has been tampered with', 403 
 
     if user_type == 'user':
