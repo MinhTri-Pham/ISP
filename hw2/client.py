@@ -42,7 +42,7 @@ async def pake():
         # x = H(salt || email_psw)
         h_x = sha256()
         h_x.update(format(salt, "x").encode())
-        h_x.update(format(email_psw_utf8_hex, "x").encode())
+        h_x.update(email_psw_utf8_hex.encode())
         x_utf8_hex = h_x.hexdigest()
         x = int(x_utf8_hex, 16)
 
