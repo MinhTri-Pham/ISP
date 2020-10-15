@@ -41,19 +41,19 @@ async def pake():
 
         # x = H(salt || email_psw)
         h_x = sha256()
-        h_x.update(salt_utf8_hex)
+        h_x.update(format(salt, "x").encode())
         h_x.update(email_psw_utf8_hex)
         x_utf8_hex = h_x.hexdigest()
         x = int(x_utf8_hex, 16)
 
         # secret S
         S = pow(B - pow(g, x, N), a + (u * x), N)
-        S_utf8_hex = format(A, "x").encode()
+        S_utf8_hex = format(S, "x").encode()
 
         # Validate by sending H(A || B || S)
         h_result = sha256()
         h_result.update(A_utf8_hex)
-        h_result.update(B_utf8_hex)
+        h_result.update(format(B, "x").encode())
         h_result.update(S_utf8_hex)
         result_utf8_hex = h_result.hexdigest()
 
