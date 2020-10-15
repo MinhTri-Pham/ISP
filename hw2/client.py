@@ -27,8 +27,8 @@ async def pake():
         
         # u = H(A || B)
         h_u = sha256()
-        h_U.update(A_uft8_hex)
-        h_U.update(B_uft8_hex)
+        h_u.update(A_uft8_hex)
+        h_u.update(B_uft8_hex)
         u_utf8_hex = h_u.hexdigest()
         u = int(u_utf8_hex, 16)
 
@@ -47,7 +47,7 @@ async def pake():
         x = int(x_utf8_hex, 16)
 
         # secret S
-        S =  pow(B - pow(g, x, N), a + (u * x), N)
+        S = pow(B - pow(g, x, N), a + (u * x), N)
         S_uft8_hex = format(A, "x").encode()
 
         # Validate by sending H(A || B || S)
