@@ -28,7 +28,7 @@ async def pake():
         # u = H(A || B)
         h_u = sha256()
         h_u.update(A_utf8_hex)
-        h_u.update(B_utf8_hex)
+        h_u.update(format(B, "x").encode())
         u_utf8_hex = h_u.hexdigest()
         u = int(u_utf8_hex, 16)
 
