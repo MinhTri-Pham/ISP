@@ -19,16 +19,16 @@ async def pake():
 
         a = int.from_bytes(os.urandom(32), byteorder='big')
         A = pow(g,a,N)
-        A_uft8_hex = format(A, "x").encode()
-        await websocket.send(A_uft8_hex)
+        A_utf8_hex = format(A, "x").encode()
+        await websocket.send(A_utf8_hex)
         
         B_utf8_hex = await websocket.recv()
         B = int(B_utf8_hex, 16)
         
         # u = H(A || B)
         h_u = sha256()
-        h_u.update(A_uft8_hex)
-        h_u.update(B_uft8_hex)
+        h_u.update(A_utf8_hex)
+        h_u.update(B_utf8_hex)
         u_utf8_hex = h_u.hexdigest()
         u = int(u_utf8_hex, 16)
 
@@ -48,13 +48,13 @@ async def pake():
 
         # secret S
         S = pow(B - pow(g, x, N), a + (u * x), N)
-        S_uft8_hex = format(A, "x").encode()
+        S_utf8_hex = format(A, "x").encode()
 
         # Validate by sending H(A || B || S)
         h_result = sha256()
-        h_result.update(A_uft8_hex)
-        h_result.update(B_uft8_hex)
-        h_result.update(S_uft8_hex)
+        h_result.update(A_utf8_hex)
+        h_result.update(B_utf8_hex)
+        h_result.update(S_utf8_hex)
         result_utf8_hex = h_result.hexdigest()
 
         await websocket.send(result_utf8_hex)
