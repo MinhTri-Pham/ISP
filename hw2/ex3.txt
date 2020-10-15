@@ -1,0 +1,2 @@
+In the console of the login page, type hash("admin", "Never send a human to do a machine's job)
+This gives the hash for the usernamr "admin" 
