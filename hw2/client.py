@@ -5,7 +5,6 @@ from hashlib import sha256
 
 
 async def pake():
-    
     # Constants
     EMAIL = "your.email@epfl.ch"
     PASSWORD = "correct horse battery staple"
@@ -60,7 +59,4 @@ async def pake():
 
         await websocket.send(result_utf8_hex)
 
-
-
-
-        
+asyncio.get_event_loop().run_until_complete(pake())
