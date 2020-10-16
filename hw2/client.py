@@ -48,7 +48,7 @@ async def pake():
         x = int(x_utf8_hex, 16)
 
         # secret S
-        S = pow(B - pow(g, x), a + (u * x), N)
+        S = pow(B - pow(g, x, N), a + (u * x), N)
         S_utf8_hex = format(S, "x").encode()
 
         # Validate by sending H(A || B || S)
