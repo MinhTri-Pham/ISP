@@ -43,6 +43,7 @@ async def pake():
         h_email_psw.update(PASSWORD.encode())
         email_psw_utf8_hex = h_email_psw.hexdigest()
         email_psw = int(email_psw_utf8_hex, 16)
+        print('[-] H(U || ":" || PASSWORD): {}'.format(email_psw_utf8_hex))
 
         # x = H(salt || email_psw)
         h_x = sha256()
@@ -50,6 +51,7 @@ async def pake():
         h_x.update(format(email_psw, "x").encode())
         x_utf8_hex = h_x.hexdigest()
         x = int(x_utf8_hex, 16)
+        print('[-] H(salt || H(U || ":" || PASSWORD)): {}'.format(x_utf8_hex))
         print('[-] x: {}'.format(x))
 
         # secret S
