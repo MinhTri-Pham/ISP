@@ -17,8 +17,7 @@ async def pake():
         salt_utf8_hex = await websocket.recv() 
         salt = int(salt_utf8_hex, 16)
 
-        a = int.from_bytes(os.urandom(32), byteorder='big')
-        print('Client a: {}\n'.format(a))
+        a = int.from_bytes(os.urandom(32), byteorder='little')
 
         A = pow(g,a,N)
         A_utf8_hex = format(A, "x").encode()
@@ -26,7 +25,7 @@ async def pake():
         
         B_utf8_hex = await websocket.recv()
         B = int(B_utf8_hex, 16)
-        print('Client B: {}\n'.format(B))
+        print('[-] B: {}'.format(B))
         
         # u = H(A || B)
         h_u = sha256()
@@ -34,7 +33,7 @@ async def pake():
         h_u.update(format(B, "x").encode())
         u_utf8_hex = h_u.hexdigest()
         u = int(u_utf8_hex, 16)
-        print('Client u: {}\n'.format(u))
+        print('[-] u: {}'.format(u))
 
         # email_psw = H(U || ":" || PASSWORD)
         h_email_psw = sha256()
@@ -50,23 +49,22 @@ async def pake():
         h_x.update(format(email_psw, "x").encode())
         x_utf8_hex = h_x.hexdigest()
         x = int(x_utf8_hex, 16)
-        print('Client x: {}\n'.format(x))
+        print('[-] x: {}'.format(x))
 
         # secret S
         S = pow(B - pow(g,x,N), a + u * x, N)
-        S_utf8_hex = format(S, "x").encode()
-        print('Client S: {}\n'.format(S))
+        print('[-] Secret: {}'.format(S))
 
         # Validate by sending H(A || B || S)
         h_result = sha256()
         h_result.update(A_utf8_hex)
         h_result.update(format(B, "x").encode())
-        h_result.update(S_utf8_hex)
+        h_result.update(format(S, "x").encode())
         result_utf8_hex = h_result.hexdigest()
 
         await websocket.send(result_utf8_hex)
         result_utf8_hex = await websocket.recv()
-        print('Verification: {}'.format(result_utf8_hex))
+        print('[-]: {}'.format(result_utf8_hex))
     
 
 asyncio.get_event_loop().run_until_complete(pake())
