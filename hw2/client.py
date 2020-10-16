@@ -17,7 +17,7 @@ async def pake():
         salt_utf8_hex = await websocket.recv() 
         salt = int(salt_utf8_hex, 16)
 
-        a = int.from_bytes(os.urandom(32), byteorder='little')
+        a = int.from_bytes(os.urandom(32), byteorder='big')
         A = pow(g,a,N)
         A_utf8_hex = format(A, "x").encode()
         await websocket.send(A_utf8_hex)
@@ -43,12 +43,12 @@ async def pake():
         # x = H(salt || email_psw)
         h_x = sha256()
         h_x.update(format(salt, "x").encode())
-        h_x.update(ormat(email_psw, "x").encode())
+        h_x.update(format(email_psw, "x").encode())
         x_utf8_hex = h_x.hexdigest()
         x = int(x_utf8_hex, 16)
 
         # secret S
-        S = pow(B - pow(g, x, N), a + (u * x), N)
+        S = pow(B - pow(g, x), a + (u * x), N)
         S_utf8_hex = format(S, "x").encode()
 
         # Validate by sending H(A || B || S)
