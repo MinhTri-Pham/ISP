@@ -51,7 +51,7 @@ async def pake():
         print('Client x: {}\n'.format(x))
 
         # secret S
-        S = pow(B - pow(g, x, N), a + (u * x), N)
+        S = pow(B - pow(g,x,N), a + (u * x), N)
         S_utf8_hex = format(S, "x").encode()
         print('Client S: {}\n'.format(S))
 
@@ -63,7 +63,8 @@ async def pake():
         result_utf8_hex = h_result.hexdigest()
 
         await websocket.send(result_utf8_hex)
-        print(result_utf8_hex)  
+        result_utf8_hex = await websocket.recv()
+        print('Client H(A||B||S): {}'.format(result_utf8_hex))
     
 
 asyncio.get_event_loop().run_until_complete(pake())
