@@ -59,5 +59,9 @@ async def pake():
         result_utf8_hex = h_result.hexdigest()
 
         await websocket.send(result_utf8_hex)
+        print(result_utf8_hex)  
+
+        result_utf8_hex = await websocket.recv()
+        print(result_utf8_hex)
 
 asyncio.get_event_loop().run_until_complete(pake())
