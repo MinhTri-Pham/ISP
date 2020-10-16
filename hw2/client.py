@@ -18,6 +18,8 @@ async def pake():
         salt = int(salt_utf8_hex, 16)
 
         a = int.from_bytes(os.urandom(32), byteorder='big')
+        print('Client a: {}\n'.format(a))
+
         A = pow(g,a,N)
         A_utf8_hex = format(A, "x").encode()
         await websocket.send(A_utf8_hex)
@@ -51,7 +53,7 @@ async def pake():
         print('Client x: {}\n'.format(x))
 
         # secret S
-        S = pow(B - pow(g,x,N), a + (u * x), N)
+        S = pow(B - pow(g,x,N), a + u * x, N)
         S_utf8_hex = format(S, "x").encode()
         print('Client S: {}\n'.format(S))
 
@@ -64,7 +66,7 @@ async def pake():
 
         await websocket.send(result_utf8_hex)
         result_utf8_hex = await websocket.recv()
-        print('Client H(A||B||S): {}'.format(result_utf8_hex))
+        print('Verification: {}'.format(result_utf8_hex))
     
 
 asyncio.get_event_loop().run_until_complete(pake())
