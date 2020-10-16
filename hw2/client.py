@@ -18,8 +18,8 @@ async def pake():
         salt = int(salt_utf8_hex, 16)
 
         a = int.from_bytes(os.urandom(32), byteorder='big')
-
         A = pow(g,a,N)
+        print('[-] A: {}'.format(A))
         A_utf8_hex = format(A, "x").encode()
         await websocket.send(A_utf8_hex)
         
