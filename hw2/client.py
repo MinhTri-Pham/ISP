@@ -16,6 +16,7 @@ async def pake():
         await websocket.send(EMAIL.encode())
         salt_utf8_hex = await websocket.recv() 
         salt = int(salt_utf8_hex, 16)
+        print('[-] Salt: {}'.format(salt))
 
         a = int.from_bytes(os.urandom(32), byteorder='big')
         A = pow(g,a,N)
