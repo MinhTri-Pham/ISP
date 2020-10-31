@@ -15,7 +15,7 @@ def process_packet(pkt):
         # Handshake Type is Client Hello (0x01 = 1)
         if (pkt_bytes[0] == 0x16 and pkt_bytes[5] == 0x01):
             # Set ciphersuite to AES128 which has code 00 2f
-            new_payload = [x for x in payload]
+            new_payload = [x for x in pkt_bytes]
             new_payload[46] == 0x00
             new_payload[47] == 0x2f
             pkt.set_payload(bytes(new_payload))
