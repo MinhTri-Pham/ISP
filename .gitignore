@@ -1,1 +1,4 @@
 hw3/rockyou.txt
+*.crt
+*.key
+*.pem
