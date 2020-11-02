@@ -9,5 +9,5 @@ RUN mkdir /www
 
 COPY index.html /www
 COPY default.conf /etc/nginx/conf.d/default.conf
-COPY nginx-selfsigned.crt /etc/ssl/certs/nginx-selfsigned.crt;
-COPY nginx-selfsigned.key /etc/ssl/private/nginx-selfsigned.key;
+COPY request.crt /etc/ssl/certs/request.crt
+COPY request.key /etc/ssl/private/request.key
