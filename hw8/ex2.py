@@ -18,7 +18,7 @@ input_vector = [0.48555949, 0.29289251, 0.63463107,
                     0.3375726]
 
 true_prediction = query_pred(input_vector)    
-my_prediction = sum(v[0] * v[1] for i in zip(weights, input_vector)) + bias
+my_prediction = sum(v[0] * v[1] for v in zip(weights, input_vector)) + bias
 print(true_prediction)
 print(my_prediction)
 assert 2**(-16) > abs(true_prediction - my_prediction)    

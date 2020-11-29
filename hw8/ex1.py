@@ -2,14 +2,15 @@ import requests
 from phe import paillier
 
 URL = 'http://localhost:8000'
+END_POINT = '/prediction'
 
 def query_pred(input_vector):
     public_key, private_key = paillier.generate_paillier_keypair() # Gen Pailier keypair
     # Compute encrypted feature vector using public key
     # Floating point values need to be encoded as integers before encryption
     # Precision: maximum absolute error allowed when encoding value
-    encrypted_number_list = [int(public_key.encrypt(x, precision = 2**(-16))) for x in input_vector] 
-    response = requests.post(URL, data = {'pub_key_n' : public_key.n, 'enc_feature_vector' : encrypted_number_list})
+    encrypted_number_list = [int(public_key.encrypt(x, precision = 2**(-16)).ciphertext()) for x in input_vector] 
+    response = requests.post(URL + END_POINT, json = {'pub_key_n' : public_key.n, 'enc_feature_vector' : encrypted_number_list})
     # Error check
     if response.status_code != 200:
         raise Exception(response.text)
